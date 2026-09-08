@@ -1,23 +1,23 @@
 name: cibuildwheel
 
 on:
-  push:
-    paths:
-      - '.github/workflows/cibuildwheel.yml'
-      - 'build_config/pyproject/*.toml'
-  workflow_dispatch:
-    inputs:
-      os:
-        type: string
-        description: "comma separated list of OS"
-        required: false
+  # push:
+  #   paths:
+  #     - '.github/workflows/cibuildwheel.yml'
+  #     - 'build_config/pyproject/*.toml'
+  # workflow_dispatch:
+  #   inputs:
+  #     os:
+  #       type: string
+  #       description: "comma separated list of OS"
+  #       required: false
   workflow_call:
     inputs:
       os:
         type: string
         required: false
-  schedule:
-    - cron:  '5 0 * * *'
+  # schedule:
+  #   - cron:  '5 0 * * *'
 
 jobs:
   generate-matrix:
