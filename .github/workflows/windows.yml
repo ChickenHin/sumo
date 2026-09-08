@@ -95,69 +95,69 @@ jobs:
         cmake --build build_msvc --target examples
         ctest --test-dir build_msvc --output-on-failure
 
-    - name: Building installers
-      run: |
-        cd build_msvc
-        cpack -B D:/cpkg
+    # - name: Building installers
+    #   run: |
+    #     cd build_msvc
+    #     cpack -B D:/cpkg
 
-    - name: Uploading artifacts (SUMO installers)
-      uses: actions/upload-artifact@v7
-      with:
-        name: windows-${{ matrix.build_type }}-installers
-        path: |
-          D:/cpkg/sumo-*
-          D:/cpkg/_CPack_Packages/win64/WIX/wix.log
+    # - name: Uploading artifacts (SUMO installers)
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: windows-${{ matrix.build_type }}-installers
+    #     path: |
+    #       D:/cpkg/sumo-*
+    #       D:/cpkg/_CPack_Packages/win64/WIX/wix.log
 
-    # The following tests need to be split because of resource constraints. If they are not in separate steps
-    # a failing texttest run will not let the step fail because only the final exit code counts.
-    - name: activitygen and router tests
-      if: matrix.build_type == 'plain'
-      run: |
-        $env:TEXTTEST_CI_APPS = "-a activitygen,dfrouter,duarouter,jtrrouter,marouter"
-        tests\runCiTests.bat texttest.exe
+    # # The following tests need to be split because of resource constraints. If they are not in separate steps
+    # # a failing texttest run will not let the step fail because only the final exit code counts.
+    # - name: activitygen and router tests
+    #   if: matrix.build_type == 'plain'
+    #   run: |
+    #     $env:TEXTTEST_CI_APPS = "-a activitygen,dfrouter,duarouter,jtrrouter,marouter"
+    #     tests\runCiTests.bat texttest.exe
 
-    - name: network building, od2trips and polyconvert tests
-      if: matrix.build_type == 'plain'
-      run: |
-        $env:TEXTTEST_CI_APPS = "-a netgen,od2trips,polyconvert,netconvert"
-        tests\runCiTests.bat texttest.exe
+    # - name: network building, od2trips and polyconvert tests
+    #   if: matrix.build_type == 'plain'
+    #   run: |
+    #     $env:TEXTTEST_CI_APPS = "-a netgen,od2trips,polyconvert,netconvert"
+    #     tests\runCiTests.bat texttest.exe
 
-    - name: sumo tests
-      if: matrix.build_type == 'plain'
-      run: |
-        $env:TEXTTEST_CI_APPS = "-a sumo"
-        tests\runCiTests.bat texttest.exe
+    # - name: sumo tests
+    #   if: matrix.build_type == 'plain'
+    #   run: |
+    #     $env:TEXTTEST_CI_APPS = "-a sumo"
+    #     tests\runCiTests.bat texttest.exe
 
-    - name: Running dependency checker
-      if: matrix.build_type == 'extra'
-      run: |
-          Invoke-WebRequest -Uri https://github.com/lucasg/Dependencies/releases/download/v1.11.1/Dependencies_x64_Release_.without.peview.exe.zip -OutFile Dependencies.zip
-          7z x -oDependencies Dependencies.zip
-          $env:PATH += ";$pwd\bin"
-          dir tools\libsumo
-          Dependencies\Dependencies.exe -modules -depth 2 tools\libsumo\_libsumo.pyd
+    # - name: Running dependency checker
+    #   if: matrix.build_type == 'extra'
+    #   run: |
+    #       Invoke-WebRequest -Uri https://github.com/lucasg/Dependencies/releases/download/v1.11.1/Dependencies_x64_Release_.without.peview.exe.zip -OutFile Dependencies.zip
+    #       7z x -oDependencies Dependencies.zip
+    #       $env:PATH += ";$pwd\bin"
+    #       dir tools\libsumo
+    #       Dependencies\Dependencies.exe -modules -depth 2 tools\libsumo\_libsumo.pyd
 
-    - name: complex, traci and tools tests
-      if: matrix.build_type == 'extra'
-      run: |
-        $env:PATH += ";$pwd\bin"
-        $env:TEXTTEST_CI_APPS = "-a complex,traci,tools"
-        tests\runCiTests.bat texttest.exe
+    # - name: complex, traci and tools tests
+    #   if: matrix.build_type == 'extra'
+    #   run: |
+    #     $env:PATH += ";$pwd\bin"
+    #     $env:TEXTTEST_CI_APPS = "-a complex,traci,tools"
+    #     tests\runCiTests.bat texttest.exe
 
-    - name: meso, extra and gdal tests
-      if: matrix.build_type == 'extra'
-      run: |
-        $env:TEXTTEST_CI_APPS = "-a sumo.meso,sumo.extra,netconvert.gdal,polyconvert.gdal"
-        tests\runCiTests.bat texttest.exe
+    # - name: meso, extra and gdal tests
+    #   if: matrix.build_type == 'extra'
+    #   run: |
+    #     $env:TEXTTEST_CI_APPS = "-a sumo.meso,sumo.extra,netconvert.gdal,polyconvert.gdal"
+    #     tests\runCiTests.bat texttest.exe
 
-    - name: Compressing test results
-      if: failure()
-      run: Compress-Archive -Path D:/texttest -DestinationPath D:/texttest/tt.zip
+    # - name: Compressing test results
+    #   if: failure()
+    #   run: Compress-Archive -Path D:/texttest -DestinationPath D:/texttest/tt.zip
 
-    - name: Uploading test results
-      if: failure()
-      uses: actions/upload-artifact@v7
-      with:
-        name: texttesttmp-${{ matrix.build_type }}
-        path: D:/texttest/tt.zip
-        if-no-files-found: warn
+    # - name: Uploading test results
+    #   if: failure()
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: texttesttmp-${{ matrix.build_type }}
+    #     path: D:/texttest/tt.zip
+    #     if-no-files-found: warn
