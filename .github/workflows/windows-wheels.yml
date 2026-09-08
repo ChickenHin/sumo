@@ -1,22 +1,22 @@
 name: windows-wheels
 
 on:
-  push:            # run on push events
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
-      - 'src/gui*/**'
-      - 'src/netedit/**'
-      - 'tests/netedit/**'
-    branches:
-      - '**'
-    tags:
-      - '*'
-  pull_request:    # run on pull requests
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
-  workflow_dispatch:
-  schedule:
-    - cron:  '5 1 * * *'
+  # push:            # run on push events
+  #   paths-ignore:  # but ignore everything in the docs subfolder
+  #     - 'docs/**'
+  #     - 'src/gui*/**'
+  #     - 'src/netedit/**'
+  #     - 'tests/netedit/**'
+  #   branches:
+  #     - '**'
+  #   tags:
+  #     - '*'
+  # pull_request:    # run on pull requests
+  #   paths-ignore:  # but ignore everything in the docs subfolder
+  #     - 'docs/**'
+  # workflow_dispatch:
+  # schedule:
+  #   - cron:  '5 1 * * *'
 
 jobs:
   call-cibuildwheel:
