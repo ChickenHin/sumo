@@ -1,19 +1,19 @@
 name: linux
 
 on:
-  push:            # run on push events
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
-    branches:
-      - '**'
-    tags:
-      - '*'
-  pull_request:    # run on pull requests
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
+  # push:            # run on push events
+  #   paths-ignore:  # but ignore everything in the docs subfolder
+  #     - 'docs/**'
+  #   branches:
+  #     - '**'
+  #   tags:
+  #     - '*'
+  # pull_request:    # run on pull requests
+  #   paths-ignore:  # but ignore everything in the docs subfolder
+  #     - 'docs/**'
   workflow_dispatch:
-  schedule:
-    - cron:  '5 0 * * *'
+  # schedule:
+  #   - cron:  '5 0 * * *'
 
 jobs:
   build:
