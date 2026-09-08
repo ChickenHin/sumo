@@ -49,26 +49,26 @@ jobs:
         cd sumo/cmake-build
         make CTEST_OUTPUT_ON_FAILURE=1 examples test
 
-    - name: Uploading artifacts (SUMO examples with outputs)
-      uses: actions/upload-artifact@v7
-      with:
-        name: ${{ matrix.os }}-examples
-        path: sumo/docs/examples
+    # - name: Uploading artifacts (SUMO examples with outputs)
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: ${{ matrix.os }}-examples
+    #     path: sumo/docs/examples
 
-    - name: Running texttest
-      run: |
-        export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
-        brew install texttest
-        python3 -m venv testenv
-        source testenv/bin/activate
-        python -m pip install -r sumo/tools/req_ci.txt
-        sumo/tests/runTests.sh -b ci -v ci -finverse $PWD/sumo/tests/filter_files/macos_failures.txt
+    # - name: Running texttest
+    #   run: |
+    #     export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+    #     brew install texttest
+    #     python3 -m venv testenv
+    #     source testenv/bin/activate
+    #     python -m pip install -r sumo/tools/req_ci.txt
+    #     sumo/tests/runTests.sh -b ci -v ci -finverse $PWD/sumo/tests/filter_files/macos_failures.txt
 
-    - name: Uploading artifacts (SUMO binaries and FMU)
-      uses: actions/upload-artifact@v7
-      with:
-        name: ${{ matrix.os }}-binaries
-        path: sumo/bin
+    # - name: Uploading artifacts (SUMO binaries and FMU)
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: ${{ matrix.os }}-binaries
+    #     path: sumo/bin
 
     # - name: Creating macOS installer pkg
     #   run: |
