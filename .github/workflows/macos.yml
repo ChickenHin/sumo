@@ -1,18 +1,7 @@
 name: macos
 
 on:
-  push:            # run on push events
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
-    branches:
-      - '**'
-    tags:
-      - '*'
-  pull_request:    # run on pull requests
-    paths-ignore:  # but ignore everything in the docs subfolder
-      - 'docs/**'
-  schedule:
-    - cron:  '5 2 * * *'
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -81,15 +70,15 @@ jobs:
         name: ${{ matrix.os }}-binaries
         path: sumo/bin
 
-    - name: Creating macOS installer pkg
-      run: |
-        python3 -m venv dmgenv
-        dmgenv/bin/python3 -m pip install dmgbuild delocate
-        dmgenv/bin/python3 sumo/tools/build_config/buildMacOSInstaller.py --create-framework-dir --build-dir sumo/cmake-build
-        dmgenv/bin/python3 sumo/tools/build_config/buildMacOSInstaller.py --create-framework-pkg
+    # - name: Creating macOS installer pkg
+    #   run: |
+    #     python3 -m venv dmgenv
+    #     dmgenv/bin/python3 -m pip install dmgbuild delocate
+    #     dmgenv/bin/python3 sumo/tools/build_config/buildMacOSInstaller.py --create-framework-dir --build-dir sumo/cmake-build
+    #     dmgenv/bin/python3 sumo/tools/build_config/buildMacOSInstaller.py --create-framework-pkg
 
-    - name: Uploading macOS installer pkg
-      uses: actions/upload-artifact@v7
-      with:
-        name: ${{ matrix.os }}-installer-unsigned
-        path: framework-pkg/*.pkg
+    # - name: Uploading macOS installer pkg
+    #   uses: actions/upload-artifact@v7
+    #   with:
+    #     name: ${{ matrix.os }}-installer-unsigned
+    #     path: framework-pkg/*.pkg
